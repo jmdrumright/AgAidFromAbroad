@@ -30,6 +30,24 @@ SELECT COUNT(case_status) as dw_total
 FROM main
 WHERE case_status ILIKE '%deni%'
 	OR case_status ILIKE '%withdr%'
+	
+
+-- Count of annual TLC approvals (115,215 / 119,851 approved = 96.1%)
+-- Count of neither approved nor denied (675 / 119,851 = 0.6%)
+
+WITH cte AS (
+SELECT begin_date,
+	(RIGHT(begin_date,2)::int) AS year,
+	case_no,
+	case_status
+FROM main
+WHERE (RIGHT(begin_date,2)::int) BETWEEN 10 AND 20)
+
+SELECT DISTINCT year,
+	COUNT(case_status) OVER(PARTITION BY year) AS ann_app
+FROM cte
+WHERE case_status ILIKE '%certifi%'
+ORDER BY year
 
 
 ----------------------------------------
@@ -242,3 +260,20 @@ SELECT year,
 	employer_state,
 	worksite_state
 FROM tom
+
+
+-- Most common jobs for H-2A workers
+
+WITH cte AS (
+SELECT TRIM(UPPER(job_title)) AS title,
+	COUNT(TRIM(UPPER(job_title))) AS ct
+FROM main
+GROUP BY job_title
+ORDER BY ct DESC)
+
+SELECT DISTINCT title,
+	ct,
+	SUM(ct) OVER (PARTITION BY title) AS sum
+FROM cte
+GROUP BY title, ct
+ORDER BY sum DESC;
