@@ -6,7 +6,7 @@ SELECT COUNT(*)
 FROM main
 -- 119,851 rows
 
--- CROPS (8): Citrus, strawberries, sheep, cattle, lettuce, potato, tobacco, tomato
+-- CROPS (8): Citrus, strawberries, sheep, lettuce, potato, tobacco, tomato
 
 -- View entire data set (by year)
 
@@ -49,6 +49,15 @@ FROM cte
 WHERE case_status ILIKE '%certifi%'
 ORDER BY year
 
+-- Most common jobs
+
+SELECT DISTINCT job_title_clean,
+	SUM(num_wkrs) OVER(PARTITION BY job_title_clean) as total_wkrs
+FROM jobs
+GROUP BY job_title_clean, num_wkrs
+HAVING SUM(num_wkrs) IS NOT null
+ORDER BY total_wkrs DESC
+LIMIT 50;
 
 ----------------------------------------
 -- ALL CROPS (8)
@@ -277,3 +286,9 @@ SELECT DISTINCT title,
 FROM cte
 GROUP BY title, ct
 ORDER BY sum DESC;
+
+SELECT job_title, COUNT(*)
+FROM main
+GROUP BY job_title
+ORDER BY count DESC
+LIMIT 100;
