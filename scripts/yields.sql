@@ -7,7 +7,8 @@
 SELECT DISTINCT employer_state,
    SUM((workers_req::float)) OVER(PARTITION BY employer_state)
 FROM main
-ORDER BY sum DESC;
+ORDER BY sum DESC
+LIMIT 5;
 
 -- For citrus? FL, MS, CA, AZ
 SELECT DISTINCT employer_state,
@@ -23,13 +24,6 @@ FROM main
 WHERE job_title ILIKE '%strawberr%'
 ORDER BY sum DESC;
 
--- For sheep? UT, ID, CA, CO, WY, NV, MT, AZ, OR, TX
-SELECT DISTINCT employer_state,
-   SUM((workers_req::float)) OVER(PARTITION BY employer_state)
-FROM main
-WHERE job_title ILIKE '%sheep%'
-ORDER BY sum DESC;
-
 -- For lettuce? CA, AZ
 SELECT DISTINCT employer_state,
    SUM((workers_req::float)) OVER(PARTITION BY employer_state)
@@ -42,13 +36,6 @@ SELECT DISTINCT employer_state,
    SUM((workers_req::float)) OVER(PARTITION BY employer_state)
 FROM main
 WHERE job_title ILIKE '%potato%'
-ORDER BY sum DESC;
-
--- For tobacco? KY, CT, NC, TN, MA, GA, VA
-SELECT DISTINCT employer_state,
-   SUM((workers_req::float)) OVER(PARTITION BY employer_state)
-FROM main
-WHERE job_title ILIKE '%tobacco%'
 ORDER BY sum DESC;
 
 -- For tomato? FL, AR, NC, CA, AK, TN, IL, OH
