@@ -60,7 +60,7 @@ ORDER BY total_wkrs DESC
 LIMIT 50;
 
 ----------------------------------------
--- ALL CROPS (8)
+-- ALL CROPS (5)
 ----------------------------------------
 
 -- Citrus (grapefruit, lemon, orange), total workers
@@ -115,58 +115,6 @@ SELECT year,
 FROM str
 
 
--- Sheep, total workers
-
-WITH she AS (
-SELECT
-	(RIGHT(begin_date,2)::int) AS year,
-	job_title,
-	workers_req,
-	SUM(workers_req::FLOAT) OVER() as wr_total,
-	employer_state,
-	worksite_state
-FROM main
-WHERE job_title ILIKE '%sheep%'
-	AND (RIGHT(begin_date,2)::int) >= 10
-GROUP BY year, job_title, employer_state, workers_req, worksite_state
-ORDER BY year)
-
-SELECT year,
-	job_title,
-	workers_req,
-	wr_total,
-	SUM(workers_req::FLOAT) OVER(PARTITION BY year) AS wr_total_year,
-	employer_state,
-	worksite_state
-FROM she
-
-
--- Cattle, total workers
-
-WITH cat AS (
-SELECT
-	(RIGHT(begin_date,2)::int) AS year,
-	job_title,
-	workers_req,
-	SUM(workers_req::FLOAT) OVER() as wr_total,
-	employer_state,
-	worksite_state
-FROM main
-WHERE job_title ILIKE '%cattle%'
-	AND (RIGHT(begin_date,2)::int) >= 10
-GROUP BY year, job_title, employer_state, workers_req, worksite_state
-ORDER BY year)
-
-SELECT year,
-	job_title,
-	workers_req,
-	wr_total,
-	SUM(workers_req::FLOAT) OVER(PARTITION BY year) AS wr_total_year,
-	employer_state,
-	worksite_state
-FROM cat
-
-
 -- Lettuce, total workers
 
 WITH let AS (
@@ -219,32 +167,6 @@ SELECT year,
 FROM pot
 
 
--- Tobacco, total workers
-
-WITH tob AS (
-SELECT
-	(RIGHT(begin_date,2)::int) AS year,
-	job_title,
-	workers_req,
-	SUM(workers_req::FLOAT) OVER() as wr_total,
-	employer_state,
-	worksite_state
-FROM main
-WHERE job_title ILIKE '%tobacco%'
-	AND (RIGHT(begin_date,2)::int) >= 10
-GROUP BY year, job_title, employer_state, workers_req, worksite_state
-ORDER BY year)
-
-SELECT year,
-	job_title,
-	workers_req,
-	wr_total,
-	SUM(workers_req::FLOAT) OVER(PARTITION BY year) AS wr_total_year,
-	employer_state,
-	worksite_state
-FROM tob
-
-
 -- Tomato, total workers
 
 WITH tom AS (
@@ -271,24 +193,25 @@ SELECT year,
 FROM tom
 
 
--- Most common jobs for H-2A workers
+-- Top employer states
+
+SELECT DISTINCT employer_state,
+	SUM(workers_req::float) OVER(PARTITION BY employer_state) AS wkr_count,
+	COUNT(*) OVER(PARTITION BY employer_state) AS TLC_count
+FROM main
+WHERE employer_state NOT IN ('', 'AB', 'SK', 'MB', 'ON', 'NF', 'NU')
+	AND case_status ILIKE '%certifi%'
+ORDER BY wkr_count DESC;
+
+-- Top employers
 
 WITH cte AS (
-SELECT TRIM(UPPER(job_title)) AS title,
-	COUNT(TRIM(UPPER(job_title))) AS ct
+SELECT DISTINCT UPPER(employer_name) AS emp,
+	SUM(workers_req::float) OVER(PARTITION BY employer_name) AS wkr_by_emp
 FROM main
-GROUP BY job_title
-ORDER BY ct DESC)
+WHERE case_status ILIKE '%certifi%'
+ORDER BY wkr_by_emp DESC)
 
-SELECT DISTINCT title,
-	ct,
-	SUM(ct) OVER (PARTITION BY title) AS sum
+SELECT emp,	wkr_by_emp
 FROM cte
-GROUP BY title, ct
-ORDER BY sum DESC;
-
-SELECT job_title, COUNT(*)
-FROM main
-GROUP BY job_title
-ORDER BY count DESC
-LIMIT 100;
+WHERE wkr_by_emp IS NOT null

@@ -23,21 +23,19 @@ I've always had an interest in immigration related topics, having gone through t
 
 ## Data Questions
 
-How do H-2A workers relate to US crop yields? Since there is limited USDA data on crop yields that contain data between 2010 and 2020 (inclusive), I will look specifically at the following 5 crops that contain data for all these years: citrus (grapefruits, lemons, oranges), strawberries, lettuce, potatoes (sweet potatoes, potatoes), and tomatoes.
+**How do H-2A workers relate to US crop yields?**
+
+I will focus on 5 crops in particular because they have data from 2010-2020 (inclusive): citrus (grapefruits, lemons, oranges), strawberries, lettuce, potatoes (sweet potatoes, potatoes), and tomatoes.
 
 This project also considers the following questions:
 
-- Where do most H-2A workers come from? DONE
-- What are the most common jobs for H-2A workers? DONE
-- How does the number of TLC approvals compare to the number of H-2A visas issued? DONE
-- Is there a correlation between the number and job titles of H-2A workers and crop yields, based on job titles including those crops? DONE
-- Which states request the most H-2A workers? DONE
-- Of the states the request the most H-2A workers, how are their crop yields? NEW - Can normalize by finding amount yielded per worker
+- Where do most H-2A workers come from?
+- What are the most common jobs for H-2A workers?
+- How does the number of TLC approvals compare to the number of H-2A visas issued?
+- Is there a correlation between the number and job titles of H-2A workers and crop yields, based on job titles including those crops?
+- Which states request the most H-2A workers?
 
-
-6/18 UPDATE: I dropped sheep and tobacco because they're not showing anything meaningful, bringing my crops down to 5. I'm having trouble finding significant correlations between the data. I will investigate new yield data from FAO that contains a consistent yield unit to show all crop yields in one chart on Tableau -- I can't do that now because citrus is the only one that has a different unit than the others (boxes/acre vs. cwt/acre). Since there doesn't appear to be a consistent trend between H-2A workers and crop yields, I will consider:
-1. Bringing in weather data (NOAA) to account for patterns in the crop data and
-2. Bringing in Adverse Effect Wage Rate (AEWR) data to account for patterns in the H-2A worker data
+6/20 UPDATE: MVP mostly done, may add a year filter on the maps dash. Working on stretch goals -- got AEWR data, analyzing YoY wage changes for crop states in SQL. Still getting NOAA data for crop states.
 
 
 ## Data Tools
