@@ -2,10 +2,12 @@
 
 Note: This README is a work in progress and will be updated periodically.
 
+6/21 UPDATE: MVP 95% done, working on formatting touch ups and figuring out what to say on Thursday. Stretch goals may have to be abandoned.
+
 
 ## Summary
 
-This capstone project examines the H-2A visa program in relation to domestic crop yields to assess the effect of H-2A workers on American agriculture.
+This capstone project examines the H-2A visa program in relation to domestic crop yields.
 
 
 ## General Info
@@ -23,19 +25,17 @@ I've always had an interest in immigration related topics, having gone through t
 
 ## Data Questions
 
-**How do H-2A workers relate to US crop yields?**
+**How does the H-2A program relate to crop yields?**
 
-I will focus on 5 crops in particular because they have data from 2010-2020 (inclusive): citrus (grapefruits, lemons, oranges), strawberries, lettuce, potatoes (sweet potatoes, potatoes), and tomatoes.
+I will focus on 5 crops in particular because they have USDA data from 2010-2020 (inclusive): citrus (grapefruits, lemons, oranges), strawberries, lettuce, potatoes (sweet potatoes, potatoes), and tomatoes.
 
 This project also considers the following questions:
 
 - Where do most H-2A workers come from?
-- What are the most common jobs for H-2A workers?
-- How does the number of TLC approvals compare to the number of H-2A visas issued?
-- Is there a correlation between the number and job titles of H-2A workers and crop yields, based on job titles including those crops?
-- Which states request the most H-2A workers?
-
-6/20 UPDATE: MVP mostly done, may add a year filter on the maps dash. Working on stretch goals -- got AEWR data, analyzing YoY wage changes for crop states in SQL. Still getting NOAA data for crop states.
+- What are the most common job titles?
+- How do TLC approvals compare to H-2A visa approvals?
+- Who are the top employers?
+- How do workers compare to crop yields?
 
 
 ## Data Tools

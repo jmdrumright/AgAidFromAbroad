@@ -203,6 +203,7 @@ WHERE employer_state NOT IN ('', 'AB', 'SK', 'MB', 'ON', 'NF', 'NU')
 	AND case_status ILIKE '%certifi%'
 ORDER BY wkr_count DESC;
 
+
 -- Top employers
 
 WITH cte AS (
@@ -212,6 +213,20 @@ FROM main
 WHERE case_status ILIKE '%certifi%'
 ORDER BY wkr_by_emp DESC)
 
-SELECT emp,	wkr_by_emp
+SELECT emp, wkr_by_emp
+FROM cte
+WHERE wkr_by_emp IS NOT null
+
+
+-- Top employers with state
+
+WITH cte AS (
+SELECT DISTINCT UPPER(employer_name) AS emp, employer_state,
+	SUM(workers_req::float) OVER(PARTITION BY employer_name) AS wkr_by_emp
+FROM main
+WHERE case_status ILIKE '%certifi%'
+ORDER BY wkr_by_emp DESC)
+
+SELECT emp, employer_state, wkr_by_emp
 FROM cte
 WHERE wkr_by_emp IS NOT null
