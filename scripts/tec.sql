@@ -88,6 +88,75 @@ SELECT year,
 	worksite_state
 FROM cit
 
+WITH cit AS (
+SELECT
+	(RIGHT(begin_date,2)::int) AS year,
+	job_title,
+	workers_req,
+	SUM(workers_req::FLOAT) OVER() as wr_total,
+	employer_state,
+	worksite_state
+FROM main
+WHERE job_title ILIKE '%grapefruit%'
+	AND (RIGHT(begin_date,2)::int) >= 10
+GROUP BY year, job_title, employer_state, workers_req, worksite_state
+ORDER BY year)
+
+SELECT year,
+	job_title,
+	workers_req,
+	wr_total,
+	SUM(workers_req::FLOAT) OVER(PARTITION BY year) AS wr_total_year,
+	employer_state,
+	worksite_state
+FROM cit
+
+WITH cit AS (
+SELECT
+	(RIGHT(begin_date,2)::int) AS year,
+	job_title,
+	workers_req,
+	SUM(workers_req::FLOAT) OVER() as wr_total,
+	employer_state,
+	worksite_state
+FROM main
+WHERE job_title ILIKE '%lemon%'
+	AND (RIGHT(begin_date,2)::int) >= 10
+GROUP BY year, job_title, employer_state, workers_req, worksite_state
+ORDER BY year)
+
+SELECT year,
+	job_title,
+	workers_req,
+	wr_total,
+	SUM(workers_req::FLOAT) OVER(PARTITION BY year) AS wr_total_year,
+	employer_state,
+	worksite_state
+FROM cit
+
+WITH cit AS (
+SELECT
+	(RIGHT(begin_date,2)::int) AS year,
+	job_title,
+	workers_req,
+	SUM(workers_req::FLOAT) OVER() as wr_total,
+	employer_state,
+	worksite_state
+FROM main
+WHERE job_title ILIKE '%orange%'
+	AND (RIGHT(begin_date,2)::int) >= 10
+GROUP BY year, job_title, employer_state, workers_req, worksite_state
+ORDER BY year)
+
+SELECT year,
+	job_title,
+	workers_req,
+	wr_total,
+	SUM(workers_req::FLOAT) OVER(PARTITION BY year) AS wr_total_year,
+	employer_state,
+	worksite_state
+FROM cit
+
 
 -- Strawberries, total workers
 
